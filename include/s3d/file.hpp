@@ -63,7 +63,7 @@ namespace s3d
 
             std::string read_file_from_offset(unsigned long offset, unsigned long size);
 
-            void extract(bool extract_to_new_folder = true, bool extract_texture_files = true, bool extract_world_files = true, std::string filename = "null");
+            void extract(bool extract_to_new_folder = true, bool extract_textures_only = false, std::string filename = "null");
 
             std::string get_filename();
             std::string::size_type get_file_size();
@@ -184,7 +184,7 @@ namespace s3d
         return file_block_data_decompressed.str();
     }
 
-    void file::extract(bool extract_to_new_folder, bool extract_texture_files, bool extract_world_files, std::string filename)
+    void file::extract(bool extract_to_new_folder, bool extract_textures_only, std::string filename)
     {
         unsigned int file_index = 0;
 
@@ -206,15 +206,13 @@ namespace s3d
 
             file_index++;
 
-            if (!extract_texture_files)
+            if (extract_textures_only)
             {
-                if (file_extension == "bmp")
-                    continue;
-            }
-
-            if (!extract_world_files)
-            {
-                if (file_extension == "wld")
+                if (file_extension == "bmp" || file_extension == "dds")
+                {
+                    //
+                }
+                else
                     continue;
             }
 
